@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+# The replace() method replaces each matching occurrence of a 
+# substring with another string.
+
 def replace_word():
 
     str = "hello my name is rachel"
