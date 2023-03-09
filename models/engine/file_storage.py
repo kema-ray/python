@@ -9,6 +9,7 @@ class FileStorage:
     """Storage Engine for AirBnB clone project"""
     __file_path = 'file.json'
     __objects = {}
+    class_dicts = {"BaseModel": BaseModel}
 
     def all(self):
         """Return dictionary of <class>.<id> :object instance"""
@@ -34,7 +35,7 @@ class FileStorage:
             with open(self.__file_path, 'r', encoding="UTF-8") as f:
                 new_object_dict = json.load(f)
             for key, value in new_object_dict.items():
-                objs = self.class_dict[value['__class__']](**value)
+                objs = self.class_dicts[value['__class__']](**value)
                 self.__objects[key] = objs
         except FileNotFoundError:
             pass
