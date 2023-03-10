@@ -117,5 +117,79 @@ class HBNBCommand(cmd.Cmd):
         key = dicts[0] + '.' + args[1]
         print(store[key])
 
+    def do_destroy(self, args):
+        """
+        Deletes an instance based on the class name and id 
+        Arguments:
+            args: to enter with command: <class name> <id>
+            Example: 'destroy BaseModel 121212'
+        """
+
+        if (self.my_errors(args, 2) == 1):
+            return
+        arguments = args.split()
+        stores = storage.all()
+        if arguments[1][0] == '"':
+            arguments[1] = arguments[1].replace('"',"")
+        key = arguments[0] + '.' + arguments[1]
+        del stores[key]
+        storage.save()
+
+    def do_all(self, args):
+        """
+        Prints all string representation of all instances 
+        based or not on the class name
+        Arguments: 
+            args: enter with command (optional): <class name>
+            Example: 'all MyModel'
+        """
+
+        store = storage.all()
+        if not args:
+            print([str(x) for x in store.values()])
+            return
+        arguments = args.split()
+        if (self.my_errors(args, 1) == 1):
+            return
+        print([str(i) for i in store.values() if i.__class__.__name__ == arguments[0]])
+
+    def do_update(self, args):
+        """
+        Updates an instance based on the class name and id by 
+        adding or updating attribute
+        Arguments:
+            args: receives the commands:
+            <class name> <id> <attribute name> "<attribute value>"
+            Example: update BaseModel 1234-1234-1234 email "aibnb@mail.com" first_name "Betty" = 
+            $ update BaseModel 1234-1234-1234 email "aibnb@mail.com"
+        """
+
+        if (self.my_errors(args, 4) == 1):
+            return
+        arguments = args.split()
+        store = storage.all()
+        for i in range(len(arguments[1:]) + 1):
+            if arguments[i][0] == '"':
+                arguments[i] = arguments[i].replace('"', "")
+        key = arguments[0] + '.' + arguments[1]
+        attr_k = arguments[2]
+        attr_j = arguments[3]
+        try:
+            if attr_j.isdigit():
+                attr_j = int(attr_j)
+            elif float(attr_j):
+                attr_j = float(attr_j)
+        except ValueError:
+            pass
+        class_attr = type(store[key]).__dict__
+        if attr_k in class_attr.keys():
+            try:
+                attr_j = type(class_attr[attr_k])(attr_j)
+            except Exception:
+                print("Entered wrong value type")
+                return
+        setattr(store[key], attr_k, attr_j)
+        storage.save()
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
