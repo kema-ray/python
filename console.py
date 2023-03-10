@@ -2,9 +2,11 @@
 """HBNB console"""
 
 import cmd
+import re
 import models
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
 class HBNBCommand(cmd.Cmd):
     """
@@ -43,6 +45,7 @@ class HBNBCommand(cmd.Cmd):
         """
         classes = [
         "BaseModel",
+        "User",
         ]
 
         message = [
@@ -84,6 +87,51 @@ class HBNBCommand(cmd.Cmd):
             print(message[5])
             return 1
         return 0
+
+    def default(self, args):
+        """Method to take care of following commands:
+        <class name>.all()
+        <class name>.count()
+        <class name>.show(<id>)
+        <class name>.destroy(<id>)
+        <class name>.update(<id>, <attribute name>, <attribute value>)
+        <class name>.update(<id>, <dictionary representation)
+        Description:
+            Creates a list representations of functional models
+            Then use the functional methods to implement user
+            commands, by validating all the input commands
+        """
+        names = ["BaseModel", "User"]
+
+        commands = {"all": self.do_all,
+                    # "count": self.my_count,
+                    "show": self.do_show,
+                    "destroy": self.do_destroy,
+                    "update": self.do_update}
+
+        arguments = re.match(r"^(\w+)\.(\w+)\((.*)\)", args)
+        if arguments:
+            arguments =arguments.groups()
+        if not arguments or len(arguments) < 2 or arguments[0] not in names \
+                or arguments[1] not in commands.keys():
+            super().default(args)
+        return
+
+        # if args[1] in ["all", "count"]:
+        #     commands[args[1]](args[0])
+        # elif args[1] in ["show", "destroy"]:
+        #     commands[args[1]](args[0] + ' ' + args[2])
+        # elif args[1] == "update":
+        #     params = re.match(r"\"(.+?)\", (.+)", args[2])
+        #     if params.groups()[1][0] == '{':
+        #         dic_p = eval(params.groups()[1])
+        #         for k, v in dic_p.items():
+        #             commands[args[1]](args[0] + " " + params.groups()[0] +
+        #                               " " + k + " " + str(v))
+        #     else:
+        #         rest = params.groups()[1].split(", ")
+        #         commands[args[1]](args[0] + " " + params.groups()[0] + " " +
+        #                           rest[0] + " " + rest[1])
 
     def do_create(self, args):
         """

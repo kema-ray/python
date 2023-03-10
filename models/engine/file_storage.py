@@ -3,13 +3,13 @@
 
 import json
 from models.base_model import BaseModel
-
+from models.user import User
 
 class FileStorage:
     """Storage Engine for AirBnB clone project"""
     __file_path = 'file.json'
     __objects = {}
-    class_dicts = {"BaseModel": BaseModel}
+    class_dicts = {"BaseModel": BaseModel, "User": User}
 
     def all(self):
         """Return dictionary of <class>.<id> :object instance"""
