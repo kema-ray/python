@@ -117,22 +117,6 @@ class HBNBCommand(cmd.Cmd):
             super().default(args)
         return
 
-        # if args[1] in ["all", "count"]:
-        #     commands[args[1]](args[0])
-        # elif args[1] in ["show", "destroy"]:
-        #     commands[args[1]](args[0] + ' ' + args[2])
-        # elif args[1] == "update":
-        #     params = re.match(r"\"(.+?)\", (.+)", args[2])
-        #     if params.groups()[1][0] == '{':
-        #         dic_p = eval(params.groups()[1])
-        #         for k, v in dic_p.items():
-        #             commands[args[1]](args[0] + " " + params.groups()[0] +
-        #                               " " + k + " " + str(v))
-        #     else:
-        #         rest = params.groups()[1].split(", ")
-        #         commands[args[1]](args[0] + " " + params.groups()[0] + " " +
-        #                           rest[0] + " " + rest[1])
-
     def do_create(self, args):
         """
         Creates a new instance of BaseModel, 
