@@ -101,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
             Then use the functional methods to implement user
             commands, by validating all the input commands
         """
-        names = ["BaseModel", "User"]
+        names = ["BaseModel", "User", "State", "City", "Place", "Amenity", "Review"]
 
         commands = {"all": self.do_all,
                     # "count": self.my_count,
@@ -147,7 +147,7 @@ class HBNBCommand(cmd.Cmd):
         if dicts[1][0] == '"':
             dicts[1] = dicts[1].replace('"', "")
         key = dicts[0] + '.' + args[1]
-        print(store[key])
+        # print(store[key])
 
     def do_destroy(self, args):
         """

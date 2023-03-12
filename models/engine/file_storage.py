@@ -4,12 +4,18 @@
 import json
 from models.base_model import BaseModel
 from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 
 class FileStorage:
     """Storage Engine for AirBnB clone project"""
     __file_path = 'file.json'
     __objects = {}
-    class_dicts = {"BaseModel": BaseModel, "User": User}
+    class_dicts = {"BaseModel": BaseModel, "User": User, "Amenity": Amenity, 
+                   "City":City, "Place": Place, "Review": Review, "State": State}
 
     def all(self):
         """Return dictionary of <class>.<id> :object instance"""
